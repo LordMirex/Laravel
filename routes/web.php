@@ -14,6 +14,10 @@ Route::prefix('install')->group(function () {
     Route::post('/database/test', [InstallerController::class, 'testDatabase'])->name('installer.database.test');
     Route::get('/migrate', [InstallerController::class, 'migrationForm'])->name('installer.migrate');
     Route::post('/migrate/run', [InstallerController::class, 'runMigrations'])->name('installer.migrate.run');
+    Route::get('/admin', [InstallerController::class, 'adminForm'])->name('installer.admin');
+    Route::post('/admin/create', [InstallerController::class, 'createAdmin'])->name('installer.admin.create');
+    Route::get('/identity', [InstallerController::class, 'identityForm'])->name('installer.identity');
+    Route::post('/finish', [InstallerController::class, 'finish'])->name('installer.finish');
 });
 
 Route::prefix('admin')->group(function () {

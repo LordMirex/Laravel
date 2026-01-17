@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\Services\InstallationService;
 
+use Illuminate\Support\Facades\Artisan;
+use App\Models\SiteSetting;
+use App\Models\User;
+
 class InstallerController extends Controller
 {
     protected $installationService;
@@ -83,11 +87,64 @@ class InstallerController extends Controller
         return view('installer.migrate');
     }
 
+    public function adminForm()
+    {
+        return view('installer.admin');
+    }
+
+    public function createAdmin(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+        ]);
+
+        return redirect()->route('installer.identity');
+    }
+
+    public function identityForm()
+    {
+        return view('installer.identity');
+    }
+
+    public function finish(Request $request)
+    {
+        $request->validate([
+            'site_title' => 'required|string|max:255',
+            'whatsapp_number' => 'required|string',
+            'category' => 'required|string',
+        ]);
+
+        SiteSetting::updateOrCreate(['id' => 1], [
+            'site_title' => $request->site_title,
+            'whatsapp_number' => $request->whatsapp_number,
+            'category' => $request->category,
+            'features' => [
+                'store' => true,
+                'newsletter' => true,
+                'events' => true,
+            ],
+        ]);
+
+        File::put(storage_path('installed.lock'), json_encode([
+            'installed_at' => now()->toDateTimeString(),
+        ]));
+
+        return response()->json(['success' => true]);
+    }
+
     public function runMigrations()
     {
         try {
-            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            return response()->json(['success' => true, 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+            Artisan::call('migrate', ['--force' => true]);
+            return response()->json(['success' => true, 'output' => Artisan::output()]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
