@@ -5,9 +5,7 @@ use App\Http\Controllers\Installer\InstallerController;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [App\Http\Controllers\Controller::class, 'showHome'])->name('home');
 
 Route::post('/tasks', function (Request $request) {
     Task::create($request->validate([
