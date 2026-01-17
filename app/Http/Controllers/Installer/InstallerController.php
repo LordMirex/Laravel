@@ -68,9 +68,28 @@ class InstallerController extends Controller
             ]]);
 
             DB::connection('mysql_test')->getPdo();
+            
+            // In a real app, we would write these to .env here.
+            // For now, we assume they are already set in .env as per instructions.
+            
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function migrationForm()
+    {
+        return view('installer.migrate');
+    }
+
+    public function runMigrations()
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            return response()->json(['success' => true, 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 }
