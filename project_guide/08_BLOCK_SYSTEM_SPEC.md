@@ -4,11 +4,21 @@
 Exhaustive field and behavior specification for every content block type.
 
 ## Status
-- [ ] Not started
-- [ ] In progress
+- [x] Not started
+- [x] In progress
 - [ ] Completed
 
-## Key Details
-- Hero, Video Grid, Store, Newsletter, etc.
-- JSON data shapes and validation rules.
-- Reusable data containers.
+## Block Architecture
+- Blocks are data containers stored in `blocks` table with a `content` JSON column.
+- Themes determine how these blocks are rendered visually.
+
+## Core Block Types
+- **Hero**: Title, Subtitle, CTA, Background (Image/Video).
+- **Video Grid**: Youtube/TikTok links, Layout (Grid/Slider).
+- **Store**: Product list, WhatsApp buy message template.
+- **Newsletter**: Signup form, Headline, Description.
+- **About**: Profile image, Bio text, Social links.
+
+## Visibility & Ordering
+- Admin can toggle `enabled` status.
+- Order is controlled by `order_index`.
