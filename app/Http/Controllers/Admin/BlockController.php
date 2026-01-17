@@ -18,14 +18,14 @@ class BlockController extends Controller
     {
         $validated = $request->validate([
             'type' => 'required|string',
-            'content' => 'required|array',
+            'content' => 'required|json',
         ]);
 
         $maxOrder = Block::max('order_index') ?? -1;
 
         Block::create([
             'type' => $validated['type'],
-            'content' => $validated['content'],
+            'content' => json_decode($validated['content'], true),
             'order_index' => $maxOrder + 1,
             'enabled' => true,
         ]);
@@ -36,10 +36,14 @@ class BlockController extends Controller
     public function update(Request $request, Block $block)
     {
         $validated = $request->validate([
-            'content' => 'required|array',
-            'enabled' => 'boolean',
-            'order_index' => 'integer',
+            'content' => 'sometimes|json',
+            'enabled' => 'sometimes|boolean',
+            'order_index' => 'sometimes|integer',
         ]);
+
+        if (isset($validated['content'])) {
+            $validated['content'] = json_decode($validated['content'], true);
+        }
 
         $block->update($validated);
 
