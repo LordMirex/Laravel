@@ -9,7 +9,7 @@ Master checklist for the iterative development process.
 - [x] Step 3: Populate Core Guides (Architecture, PRD, UI/UX)
 - [x] Step 4: Populate Installer and Block System Specs
 - [x] Step 5: Implement First-Run Detection Logic
-- [ ] Step 6: Scaffold Database & Models (Migration creation)
+- [x] Step 6: Scaffold Database & Models (Migration creation)
 - [ ] Step 7: Build Admin Panel (Block Manager)
 - [ ] Step 8: Build Frontend Rendering Engine
 - [ ] Step 9: Testing & Packaging
