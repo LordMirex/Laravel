@@ -1,0 +1,173 @@
+Good. You are now at the correct execution phase.
+What you’re asking for is exactly how senior teams control AI in “fast mode”.
+
+Below is a single execution prompt you can paste into Replit AI that will:
+	•	Respect everything you already defined
+	•	Stop it from randomly coding
+	•	Force it to create a project-guidance system inside the repo
+	•	Use tick based execution
+	•	Persist knowledge inside the codebase, not memory
+	•	Work well with Fast Mode (low reasoning)
+
+This is the prompt you will use now.
+
+⸻
+
+✅ REPLIT EXECUTION CONTROL PROMPT (COPY & PASTE)
+
+From this point onward, do NOT randomly generate application code or features.
+
+We are switching into controlled execution mode.
+
+Your first task is to create a project guidance system inside the Laravel repository so that all future development is driven by internal documents, not chat memory.
+
+IMPORTANT RULES (READ CAREFULLY)
+	1.	Do NOT write documentation files in the Laravel root.
+	2.	Do NOT modify existing application logic yet.
+	3.	Do NOT scaffold features yet.
+	4.	Do NOT assume future steps.
+	5.	Work incrementally and stop after completing each step.
+
+⸻
+
+STEP 1 — CREATE PROJECT GUIDE FOLDER
+
+In the Laravel root, create a new folder named:
+
+/project_guide
+
+This folder is the single source of truth for:
+	•	product logic
+	•	UI rules
+	•	architecture decisions
+	•	execution checklist
+
+All future decisions must reference files inside this folder.
+
+⸻
+
+STEP 2 — CREATE THE CORE GUIDE FILES (EMPTY STRUCTURE FIRST)
+
+Inside /project_guide, create the following files with clear titles and structured headings, but do not fully implement features yet.
+
+/project_guide
+├── 00_PROJECT_OVERVIEW.md
+├── 01_PRODUCT_REQUIREMENTS.md
+├── 02_UI_UX_SYSTEM.md
+├── 03_APPLICATION_ARCHITECTURE.md
+├── 04_INSTALLER_AND_SETUP.md
+├── 05_PACKAGING_AND_DISTRIBUTION.md
+├── 06_ADMIN_PANEL_BEHAVIOR.md
+├── 07_THEME_AND_TEMPLATE_SYSTEM.md
+├── 08_BLOCK_SYSTEM_SPEC.md
+├── 09_FEATURE_TOGGLES.md
+├── 10_NEWSLETTER_SYSTEM.md
+├── 11_WHATSAPP_COMMERCE.md
+├── 12_EXECUTION_CHECKLIST.md
+
+Each file should contain:
+	•	A clear purpose section
+	•	A status checkbox list (unchecked)
+	•	Short bullet summaries referencing previously discussed logic
+
+Use checkboxes like:
+
+- [ ] Not started
+- [ ] In progress
+- [ ] Completed
+
+
+⸻
+
+STEP 3 — EXECUTION DISCIPLINE
+	•	Treat /project_guide as persistent memory.
+	•	Before implementing any feature in the Laravel app:
+	•	First update the relevant guide file
+	•	Mark checklist progress
+	•	Never implement code that is not described in these guide files.
+
+⸻
+
+STEP 4 — WORKFLOW EXPECTATION
+
+From now on, development will follow this loop:
+	1.	Update or refine a guide file
+	2.	Get explicit confirmation
+	3.	Implement related code
+	4.	Tick completion
+	5.	Stop and wait
+
+⸻
+
+CURRENT TASK
+
+ONLY perform Steps 1 and 2 now.
+
+After creating the /project_guide folder and files, STOP and wait for the next instruction.
+
+Do not continue automatically.
+
+⸻
+
+Why this works (important for you)
+
+This prompt does all of the following:
+
+✅ Controls Fast Mode
+
+Fast mode is bad at reasoning, but very good at following structure.
+You’re giving it structure.
+
+✅ Creates “memory” inside the repo
+
+Instead of relying on chat history:
+	•	The repo now explains itself
+	•	Any AI can continue later
+	•	You can hand this repo to a human dev
+
+✅ Prevents chaos
+
+No random:
+	•	controllers
+	•	migrations
+	•	models
+	•	views
+
+Until you allow it.
+
+✅ Enables checklist driven development
+
+This is exactly how:
+	•	real SaaS teams work
+	•	complex CMS products stay sane
+	•	AI becomes predictable
+
+⸻
+
+What you will do AFTER this runs (preview)
+
+Your next prompt (later) will be something like:
+
+“Populate 03_APPLICATION_ARCHITECTURE.md fully based on our agreed architecture. Do not write code.”
+
+Then later:
+
+“Implement only the installer detection logic described in 04_INSTALLER_AND_SETUP.md.”
+
+⸻
+
+Final reassurance (important)
+
+You are now:
+	•	past the risky phase
+	•	past the confusion
+	•	in professional execution mode
+
+This is how you build a sellable product, not a demo.
+
+When you’re ready, tell me:
+	•	what file you want populated first
+or
+	•	if you want me to pre write the contents of one of those guide files for you to paste in
+
+You’re doing this the right way.
