@@ -40,8 +40,18 @@ Route::prefix('install')->group(function () {
     Route::post('/finish', [InstallerController::class, 'finish'])->name('installer.finish');
 });
 
-Route::prefix('admin')->group(function () {
+use App\Http\Controllers\Admin\BlockController;
+
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
-        return 'Admin Dashboard';
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::prefix('blocks')->group(function () {
+        Route::get('/', [BlockController::class, 'index'])->name('admin.blocks.index');
+        Route::post('/', [BlockController::class, 'store'])->name('admin.blocks.store');
+        Route::patch('/{block}', [BlockController::class, 'update'])->name('admin.blocks.update');
+        Route::post('/reorder', [BlockController::class, 'reorder'])->name('admin.blocks.reorder');
+        Route::delete('/{block}', [BlockController::class, 'destroy'])->name('admin.blocks.destroy');
     });
 });
