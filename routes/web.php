@@ -2,10 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Installer\InstallerController;
+use App\Models\Task;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::post('/tasks', function (Request $request) {
+    Task::create($request->validate(['title' => 'required|string|max:255']));
+    return back();
+});
+
+Route::patch('/tasks/{task}/toggle', function (Task $task) {
+    $task->update(['completed' => !$task->completed]);
+    return back();
+});
+
+Route::delete('/tasks/{task}', function (Task $task) {
+    $task->delete();
+    return back();
+});
 
 Route::prefix('install')->group(function () {
     Route::get('/', [InstallerController::class, 'welcome'])->name('installer.welcome');
