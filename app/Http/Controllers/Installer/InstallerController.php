@@ -60,21 +60,21 @@ class InstallerController extends Controller
         ]);
 
         try {
-            // For Postgres in Replit environment
-            config(['database.connections.pgsql_test' => [
-                'driver' => 'pgsql',
+            // Using MySQL as requested (Railway)
+            config(['database.connections.mysql_test' => [
+                'driver' => 'mysql',
                 'host' => $request->host,
                 'port' => $request->port,
                 'database' => $request->database,
                 'username' => $request->username,
                 'password' => $request->password,
-                'charset' => 'utf8',
-                'prefix' => '',
-                'schema' => 'public',
-                'sslmode' => 'prefer',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'strict' => true,
+                'engine' => null,
             ]]);
 
-            DB::connection('pgsql_test')->getPdo();
+            DB::connection('mysql_test')->getPdo();
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
