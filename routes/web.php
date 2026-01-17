@@ -10,7 +10,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/tasks', function (Request $request) {
-    Task::create($request->validate(['title' => 'required|string|max:255']));
+    Task::create($request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string|max:1000',
+    ]));
     return back();
 });
 

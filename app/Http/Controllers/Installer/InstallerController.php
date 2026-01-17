@@ -60,21 +60,21 @@ class InstallerController extends Controller
         ]);
 
         try {
-            config(['database.connections.mysql_test' => [
-                'driver' => 'mysql',
+            // For Postgres in Replit environment
+            config(['database.connections.pgsql_test' => [
+                'driver' => 'pgsql',
                 'host' => $request->host,
                 'port' => $request->port,
                 'database' => $request->database,
                 'username' => $request->username,
                 'password' => $request->password,
-                'charset' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
+                'charset' => 'utf8',
+                'prefix' => '',
+                'schema' => 'public',
+                'sslmode' => 'prefer',
             ]]);
 
-            DB::connection('mysql_test')->getPdo();
-            
-            // In a real app, we would write these to .env here.
-            // For now, we assume they are already set in .env as per instructions.
+            DB::connection('pgsql_test')->getPdo();
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
