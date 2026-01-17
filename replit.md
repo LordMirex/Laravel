@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a Laravel 12 PHP web application that has been migrated from a Node.js/Express backend with a React frontend. The project includes configuration for both the Laravel backend and a client-side React application using Vite, Tailwind CSS, and shadcn/ui components. The application uses PostgreSQL as its database with Drizzle ORM for schema management.
+This is a Laravel 12 PHP web application built with the Laravel framework. Laravel provides an elegant MVC architecture with features including routing, dependency injection, Eloquent ORM, database migrations, background job processing, and real-time event broadcasting. The project uses Vite for frontend asset compilation with Tailwind CSS for styling.
 
 ## User Preferences
 
@@ -10,60 +10,71 @@ Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Backend Architecture
-- **Framework**: Laravel 12 (PHP 8.2+) - Full-featured MVC framework
-- **Entry Point**: Standard Laravel structure with `php artisan serve` for development
-- **API Routes**: Laravel routing system handles HTTP requests
-- **Database ORM**: Dual approach - Laravel's Eloquent ORM for PHP and Drizzle ORM for TypeScript schema definitions
-- **Queue Processing**: Laravel's built-in queue system with `php artisan queue:listen`
+### Backend Framework
+- **Laravel 12**: Full-featured PHP web framework handling routing, controllers, models, and views
+- **PHP 8.2+**: Minimum required PHP version
+- **Artisan CLI**: Laravel's command-line interface for running tasks, migrations, and development server
 
-### Frontend Architecture
-- **Framework**: React with TypeScript (located in `client/` directory)
-- **Build Tool**: Vite with Laravel Vite Plugin for asset bundling
-- **Routing**: Wouter for client-side routing
-- **State Management**: TanStack React Query for server state
-- **UI Components**: shadcn/ui component library with Radix UI primitives
-- **Styling**: Tailwind CSS with custom theme configuration and CSS variables for theming
+### Frontend Build System
+- **Vite**: Modern frontend build tool configured via `vite.config.js`
+- **Laravel Vite Plugin**: Integrates Vite with Laravel for asset compilation
+- **Tailwind CSS**: Utility-first CSS framework with custom theme configuration in `tailwind.config.ts`
 
-### Database Schema
-- **ORM**: Drizzle ORM with PostgreSQL dialect
-- **Schema Location**: `shared/schema.ts`
-- **Migrations**: Stored in `migrations/` directory
-- **Tables**: Currently includes a `users` table with id, username, and password fields
+### Development Workflow
+- **Entry Point**: `php artisan serve` runs the development server on port 5000
+- **Build Command**: Caches configuration, routes, and views for production
+- **Composer Scripts**: 
+  - `composer setup`: Installs dependencies, generates app key, runs migrations, builds frontend
+  - `composer dev`: Runs server, queue worker, log viewer, and Vite dev server concurrently
+  - `composer test`: Clears config cache and runs PHPUnit tests
 
-### Build System
-- **PHP Dependencies**: Composer for package management
-- **Node Dependencies**: npm for frontend packages
-- **Development**: Concurrent processes for server, queue, logs, and Vite dev server
-- **Production Build**: `composer setup` script handles full installation and build
+### Project Structure
+- `app/`: Application code (controllers, models, services)
+- `resources/`: Frontend assets (CSS, JS, Blade templates)
+- `database/`: Migrations, factories, and seeders
+- `public/`: Publicly accessible files
+- `vendor/`: Composer dependencies
+- `tests/`: PHPUnit test files
+
+### Key Configuration Files
+- `composer.json`: PHP dependencies and autoloading
+- `package.json`: Node.js scripts for development
+- `vite.config.js`: Frontend asset bundling configuration
+- `tailwind.config.ts`: Tailwind CSS theme customization
 
 ## External Dependencies
 
-### Database
-- **PostgreSQL**: Primary database, connection via `DATABASE_URL` environment variable
-- **Drizzle Kit**: Database migration and schema push tooling
-
 ### PHP Packages (via Composer)
-- Laravel Framework 12.x
-- Laravel Tinker (REPL)
-- Laravel Pail (log tailing)
-- Laravel Pint (code styling)
-- Laravel Sail (Docker development)
-- PHPUnit for testing
-- Faker for test data generation
+- **laravel/framework**: Core Laravel framework
+- **laravel/tinker**: REPL for Laravel
+- **guzzlehttp/guzzle**: HTTP client for API requests
+- **nesbot/carbon**: DateTime handling (via Laravel)
+- **monolog/monolog**: Logging (via Laravel)
 
-### Frontend Packages (via npm)
-- React 18+ with React DOM
-- TanStack React Query for data fetching
-- Radix UI component primitives (dialog, dropdown, tabs, toast, etc.)
-- Tailwind CSS with PostCSS and Autoprefixer
-- Zod for schema validation
-- React Hook Form with Zod resolver
-- date-fns for date manipulation
-- class-variance-authority and clsx for styling utilities
+### Development PHP Packages
+- **fakerphp/faker**: Fake data generation for testing
+- **laravel/pail**: Real-time log viewer
+- **laravel/pint**: Code formatter
+- **laravel/sail**: Docker development environment
+- **phpunit/phpunit**: Testing framework
+- **mockery/mockery**: Mocking library for tests
 
-### Development Tools
-- Vite with React plugin
-- TypeScript for type checking
-- ESBuild for server bundling (in build script)
-- Concurrently for running multiple dev processes
+### Frontend Dependencies (via npm)
+- **Radix UI components**: Various React UI primitives (accordion, dialog, dropdown, etc.)
+- **@tanstack/react-query**: Data fetching and caching
+- **Tailwind CSS**: Utility CSS framework
+- **class-variance-authority**: CSS class management
+- **date-fns**: Date utility library
+- **drizzle-orm**: TypeScript ORM (may be used for additional backend logic)
+
+### Database
+- Laravel supports multiple database backends (MySQL, PostgreSQL, SQLite, SQL Server)
+- Uses Eloquent ORM for database interactions
+- Migrations handle schema management
+
+### Additional Integrations (referenced in build script)
+- **OpenAI / Google Generative AI**: AI service integrations
+- **Stripe**: Payment processing
+- **Passport**: Authentication
+- **Nodemailer**: Email sending
+- **WebSocket (ws)**: Real-time communication
