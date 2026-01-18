@@ -60,6 +60,8 @@ class InstallerController extends Controller
         ]);
 
         try {
+            \Illuminate\Support\Facades\Log::info('Testing database connection', $request->all());
+
             // Using MySQL as requested (Railway)
             config(['database.connections.mysql_test' => [
                 'driver' => 'mysql',
@@ -78,6 +80,7 @@ class InstallerController extends Controller
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Database connection test failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }
     }

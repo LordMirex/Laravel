@@ -64,9 +64,10 @@
         status.classList.add('hidden');
 
         try {
+            const formDataObj = Object.fromEntries(formData);
             const res = await fetch('{{ route('installer.database.test') }}', {
                 method: 'POST',
-                body: JSON.stringify(Object.fromEntries(formData)),
+                body: JSON.stringify(formDataObj),
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Content-Type': 'application/json',
@@ -74,7 +75,14 @@
                 }
             });
             
-            const data = await res.json();
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Invalid JSON response:', text);
+                throw new Error('Server returned an invalid response. Please check logs.');
+            }
             
             if (data.success) {
                 status.innerText = 'Success! Connection established.';
