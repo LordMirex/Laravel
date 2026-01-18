@@ -65,7 +65,6 @@
 
         try {
             const formDataObj = Object.fromEntries(formData);
-            console.log('Testing connection with:', formDataObj);
             
             const res = await fetch('{{ route('installer.database.test') }}', {
                 method: 'POST',
@@ -78,14 +77,12 @@
             });
             
             const text = await res.text();
-            console.log('Server response text:', text);
-            
             let data;
             try {
                 data = JSON.parse(text);
             } catch (e) {
-                console.error('Invalid JSON response:', text);
-                throw new Error('Server returned an invalid response. Error: ' + text.substring(0, 100));
+                // If the response is not JSON, it might be an HTML error page or a raw string
+                throw new Error(text.substring(0, 100) || 'Server returned an invalid response.');
             }
             
             if (data.success) {

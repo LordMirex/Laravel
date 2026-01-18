@@ -60,10 +60,8 @@ class InstallerController extends Controller
         ]);
 
         try {
-            \Illuminate\Support\Facades\Log::info('Testing database connection', $request->all());
-
             // Using MySQL as requested (Railway)
-            config(['database.connections.mysql_test' => [
+            $config = [
                 'driver' => 'mysql',
                 'host' => $request->host,
                 'port' => $request->port,
@@ -74,13 +72,15 @@ class InstallerController extends Controller
                 'collation' => 'utf8mb4_unicode_ci',
                 'strict' => true,
                 'engine' => null,
-            ]]);
+            ];
 
+            config(['database.connections.mysql_test' => $config]);
+
+            DB::purge('mysql_test');
             DB::connection('mysql_test')->getPdo();
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Database connection test failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }
     }
