@@ -27,4 +27,9 @@ Route::prefix('admin')->group(function () {
         Route::patch('/{product}', [ProductController::class, 'update'])->name('admin.products.update');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
     });
+
+    Route::prefix('members')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\MemberController::class, 'index'])->name('admin.members.index');
+        Route::post('/', [\App\Http\Controllers\Admin\MemberController::class, 'store'])->name('admin.members.store');
+    });
 });
