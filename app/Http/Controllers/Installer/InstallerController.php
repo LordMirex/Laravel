@@ -39,7 +39,7 @@ class InstallerController extends Controller
             'json' => extension_loaded('json'),
             'bcmath' => extension_loaded('bcmath'),
             'storage_writable' => is_writable(storage_path()),
-            'cache_writable' => is_writable(bootstrap_path('cache')),
+            'cache_writable' => is_writable(app()->bootstrapPath('cache')),
         ];
 
         return view('installer.preflight', compact('checks'));
