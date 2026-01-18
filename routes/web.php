@@ -40,6 +40,8 @@ Route::prefix('install')->group(function () {
 
 use App\Http\Controllers\Admin\BlockController;
 
+use App\Http\Controllers\Admin\ProductController;
+
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -51,5 +53,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::patch('/{block}', [BlockController::class, 'update'])->name('admin.blocks.update');
         Route::post('/reorder', [BlockController::class, 'reorder'])->name('admin.blocks.reorder');
         Route::delete('/{block}', [BlockController::class, 'destroy'])->name('admin.blocks.destroy');
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
+        Route::patch('/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
     });
 });
