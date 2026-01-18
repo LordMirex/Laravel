@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    protected $fillable = ['name', 'email', 'phone', 'address', 'status', 'joined_at'];
+    protected $fillable = ['name', 'email', 'phone', 'address', 'status', 'joined_at', 'ministry_id'];
+
+    public function ministry()
+    {
+        return $this->belongsTo(Ministry::class);
+    }
 }
