@@ -35,10 +35,14 @@
             </a>
         </nav>
         <div class="p-6 border-t border-white/10">
+            @if(Route::has('logout'))
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="text-slate-400 hover:text-white text-sm font-medium">Logout</button>
             </form>
+            @else
+            <div class="text-slate-500 text-xs">Auth not configured</div>
+            @endif
         </div>
     </aside>
     <main class="flex-1 flex flex-col">
