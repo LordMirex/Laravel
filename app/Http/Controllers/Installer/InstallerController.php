@@ -52,21 +52,21 @@ class InstallerController extends Controller
 
     public function testDatabase(Request $request)
     {
-        $request->validate([
-            'host' => 'required',
-            'port' => 'required',
-            'database' => 'required',
-            'username' => 'required',
-        ]);
+        // Use default MySQL for everything as requested
+        $host = $request->input('host', 'shuttle.proxy.rlwy.net');
+        $port = $request->input('port', '17743');
+        $database = $request->input('database', 'railway');
+        $username = $request->input('username', 'root');
+        $password = $request->input('password', 'SdaWWXDTppnLDpiELvFpcZzURHctSPLH');
 
         try {
             $config = [
                 'driver' => 'mysql',
-                'host' => $request->host,
-                'port' => $request->port,
-                'database' => $request->database,
-                'username' => $request->username,
-                'password' => $request->password,
+                'host' => $host,
+                'port' => $port,
+                'database' => $database,
+                'username' => $username,
+                'password' => $password,
                 'charset' => 'utf8mb4',
                 'collation' => 'utf8mb4_unicode_ci',
                 'strict' => true,
@@ -84,8 +84,7 @@ class InstallerController extends Controller
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Installer DB Error: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Connection failed: ' . $e->getMessage()], 400);
+            return response()->json(['success' => false, 'message' => 'Internal Error: ' . $e->getMessage()], 400);
         }
     }
 

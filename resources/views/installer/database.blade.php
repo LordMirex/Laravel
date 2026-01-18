@@ -18,6 +18,7 @@
 
     <form id="db-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @csrf
+        <input type="hidden" name="driver" value="mysql">
         <div class="md:col-span-2">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Host</label>
             <input type="text" name="host" value="shuttle.proxy.rlwy.net" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
