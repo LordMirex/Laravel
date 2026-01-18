@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\SiteSetting;
 
-abstract class Controller
+class Controller
 {
     public function showHome()
     {
