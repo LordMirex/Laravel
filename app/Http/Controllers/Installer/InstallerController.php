@@ -53,6 +53,7 @@ class InstallerController extends Controller
     public function testDatabase(Request $request)
     {
         $request->validate([
+            'driver' => 'required|in:mysql,pgsql',
             'host' => 'required',
             'port' => 'required',
             'database' => 'required',
@@ -60,24 +61,29 @@ class InstallerController extends Controller
         ]);
 
         try {
-            // Using MySQL as requested (Railway)
             $config = [
-                'driver' => 'mysql',
+                'driver' => $request->driver,
                 'host' => $request->host,
                 'port' => $request->port,
                 'database' => $request->database,
                 'username' => $request->username,
                 'password' => $request->password,
-                'charset' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-                'strict' => true,
-                'engine' => null,
+                'charset' => $request->driver === 'mysql' ? 'utf8mb4' : 'utf8',
+                'prefix' => '',
+                'schema' => 'public',
+                'sslmode' => 'prefer',
             ];
 
-            config(['database.connections.mysql_test' => $config]);
+            if ($request->driver === 'mysql') {
+                $config['collation'] = 'utf8mb4_unicode_ci';
+                $config['strict'] = true;
+                $config['engine'] = null;
+            }
 
-            DB::purge('mysql_test');
-            DB::connection('mysql_test')->getPdo();
+            config(['database.connections.db_test' => $config]);
+
+            DB::purge('db_test');
+            DB::connection('db_test')->getPdo();
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

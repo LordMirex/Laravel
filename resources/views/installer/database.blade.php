@@ -19,24 +19,31 @@
     <form id="db-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @csrf
         <div class="md:col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Database Type</label>
+            <select name="driver" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
+                <option value="pgsql" {{ str_contains(env('DATABASE_URL', ''), 'postgres') ? 'selected' : '' }}>PostgreSQL (Local/Replit)</option>
+                <option value="mysql" {{ str_contains(env('DATABASE_URL', ''), 'mysql') ? 'selected' : '' }}>MySQL (Railway)</option>
+            </select>
+        </div>
+        <div class="md:col-span-2">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Host</label>
-            <input type="text" name="host" value="shuttle.proxy.rlwy.net" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
+            <input type="text" name="host" value="{{ env('PGHOST', 'shuttle.proxy.rlwy.net') }}" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
         </div>
         <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Port</label>
-            <input type="number" name="port" value="17743" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
+            <input type="number" name="port" value="{{ env('PGPORT', '17743') }}" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
         </div>
         <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Database</label>
-            <input type="text" name="database" value="railway" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
+            <input type="text" name="database" value="{{ env('PGDATABASE', 'railway') }}" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
         </div>
         <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Username</label>
-            <input type="text" name="username" value="root" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
+            <input type="text" name="username" value="{{ env('PGUSER', 'root') }}" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none" required>
         </div>
         <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Password</label>
-            <input type="password" name="password" value="SdaWWXDTppnLDpiELvFpcZzURHctSPLH" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none">
+            <input type="password" name="password" value="{{ env('PGPASSWORD', 'SdaWWXDTppnLDpiELvFpcZzURHctSPLH') }}" class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none">
         </div>
         
         <div id="status" class="hidden md:col-span-2 p-4 rounded-2xl text-sm font-medium"></div>
