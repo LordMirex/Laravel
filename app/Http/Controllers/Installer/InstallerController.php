@@ -53,7 +53,6 @@ class InstallerController extends Controller
     public function testDatabase(Request $request)
     {
         $request->validate([
-            'driver' => 'required|in:mysql,pgsql',
             'host' => 'required',
             'port' => 'required',
             'database' => 'required',
@@ -62,28 +61,22 @@ class InstallerController extends Controller
 
         try {
             $config = [
-                'driver' => $request->driver,
+                'driver' => 'mysql',
                 'host' => $request->host,
                 'port' => $request->port,
                 'database' => $request->database,
                 'username' => $request->username,
                 'password' => $request->password,
-                'charset' => $request->driver === 'mysql' ? 'utf8mb4' : 'utf8',
-                'prefix' => '',
-                'schema' => 'public',
-                'sslmode' => 'prefer',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'strict' => true,
+                'engine' => null,
             ];
 
-            if ($request->driver === 'mysql') {
-                $config['collation'] = 'utf8mb4_unicode_ci';
-                $config['strict'] = true;
-                $config['engine'] = null;
-            }
+            config(['database.connections.mysql_test' => $config]);
 
-            config(['database.connections.db_test' => $config]);
-
-            DB::purge('db_test');
-            DB::connection('db_test')->getPdo();
+            DB::purge('mysql_test');
+            DB::connection('mysql_test')->getPdo();
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
