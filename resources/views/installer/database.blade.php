@@ -66,9 +66,11 @@
         try {
             const res = await fetch('{{ route('installer.database.test') }}', {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify(Object.fromEntries(formData)),
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 }
             });
             
