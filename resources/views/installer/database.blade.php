@@ -77,12 +77,12 @@
             });
             
             const text = await res.text();
+            console.log('Response:', text);
             let data;
             try {
                 data = JSON.parse(text);
             } catch (e) {
-                // If the response is not JSON, it might be an HTML error page or a raw string
-                throw new Error(text.substring(0, 100) || 'Server returned an invalid response.');
+                throw new Error('Server returned invalid response. Check console.');
             }
             
             if (data.success) {
@@ -95,6 +95,7 @@
                 throw new Error(data.message || 'Connection failed');
             }
         } catch (err) {
+            console.error('Test error:', err);
             status.innerText = err.message;
             status.className = 'p-4 rounded-2xl text-sm bg-rose-50 text-rose-700 block md:col-span-2';
             btn.disabled = false;

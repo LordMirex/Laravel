@@ -71,6 +71,10 @@ class InstallerController extends Controller
                 'collation' => 'utf8mb4_unicode_ci',
                 'strict' => true,
                 'engine' => null,
+                'options' => [
+                    \PDO::ATTR_TIMEOUT => 5,
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                ],
             ];
 
             config(['database.connections.mysql_test' => $config]);
@@ -80,7 +84,8 @@ class InstallerController extends Controller
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+            \Illuminate\Support\Facades\Log::error('Installer DB Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Connection failed: ' . $e->getMessage()], 400);
         }
     }
 
