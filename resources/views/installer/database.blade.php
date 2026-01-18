@@ -78,12 +78,14 @@
             });
             
             const text = await res.text();
-            console.log('Response:', text);
+            console.log('Raw Response:', text);
             let data;
             try {
                 data = JSON.parse(text);
             } catch (e) {
-                throw new Error('Server returned invalid response. Check console.');
+                // If parsing fails, show the raw text to debug
+                const snippet = text.length > 200 ? text.substring(0, 200) + '...' : text;
+                throw new Error('Server returned invalid data: ' + snippet);
             }
             
             if (data.success) {
@@ -96,7 +98,7 @@
                 throw new Error(data.message || 'Connection failed');
             }
         } catch (err) {
-            console.error('Test error:', err);
+            console.error('Frontend Catch:', err);
             status.innerText = err.message;
             status.className = 'p-4 rounded-2xl text-sm bg-rose-50 text-rose-700 block md:col-span-2';
             btn.disabled = false;

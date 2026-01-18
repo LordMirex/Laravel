@@ -52,39 +52,27 @@ class InstallerController extends Controller
 
     public function testDatabase(Request $request)
     {
-        // Use default MySQL for everything as requested
-        $host = $request->input('host', 'shuttle.proxy.rlwy.net');
-        $port = $request->input('port', '17743');
-        $database = $request->input('database', 'railway');
-        $username = $request->input('username', 'root');
-        $password = $request->input('password', 'SdaWWXDTppnLDpiELvFpcZzURHctSPLH');
+        // Use hardcoded Railway MySQL credentials for testing if inputs are empty
+        $host = $request->input('host') ?: 'shuttle.proxy.rlwy.net';
+        $port = $request->input('port') ?: '17743';
+        $database = $request->input('database') ?: 'railway';
+        $username = $request->input('username') ?: 'root';
+        $password = $request->input('password') ?: 'SdaWWXDTppnLDpiELvFpcZzURHctSPLH';
 
         try {
-            $config = [
-                'driver' => 'mysql',
-                'host' => $host,
-                'port' => $port,
-                'database' => $database,
-                'username' => $username,
-                'password' => $password,
-                'charset' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-                'strict' => true,
-                'engine' => null,
-                'options' => [
-                    \PDO::ATTR_TIMEOUT => 5,
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                ],
+            // Force create a raw PDO connection to be absolutely sure of the error
+            $dsn = "mysql:host={$host};port={$port};dbname={$database};charset=utf8mb4";
+            $options = [
+                \PDO::ATTR_TIMEOUT => 5,
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             ];
-
-            config(['database.connections.mysql_test' => $config]);
-
-            DB::purge('mysql_test');
-            DB::connection('mysql_test')->getPdo();
+            
+            new \PDO($dsn, $username, $password, $options);
             
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Internal Error: ' . $e->getMessage()], 400);
+            \Illuminate\Support\Facades\Log::error('Installer DB Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }
     }
 
