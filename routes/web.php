@@ -32,4 +32,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\MemberController::class, 'index'])->name('admin.members.index');
         Route::post('/', [\App\Http\Controllers\Admin\MemberController::class, 'store'])->name('admin.members.store');
     });
+
+    Route::prefix('ministries')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\MinistryController::class, 'index'])->name('admin.ministries.index');
+        Route::post('/', [\App\Http\Controllers\Admin\MinistryController::class, 'store'])->name('admin.ministries.store');
+        Route::delete('/{ministry}', [\App\Http\Controllers\Admin\MinistryController::class, 'destroy'])->name('admin.ministries.destroy');
+    });
 });
