@@ -9,9 +9,7 @@ use App\Http\Controllers\Admin\ProductController;
 Route::get('/', [App\Http\Controllers\Controller::class, 'showHome'])->name('home');
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::prefix('blocks')->group(function () {
         Route::get('/manage', [BlockController::class, 'index'])->name('admin.blocks.index');
