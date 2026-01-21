@@ -52,15 +52,22 @@ class InstallerController extends Controller
 
     public function testDatabase(Request $request)
     {
-        // Use hardcoded Railway MySQL credentials for testing if inputs are empty
-        $host = $request->input('host') ?: 'shuttle.proxy.rlwy.net';
-        $port = $request->input('port') ?: '17743';
-        $database = $request->input('database') ?: 'railway';
-        $username = $request->input('username') ?: 'root';
-        $password = $request->input('password') ?: 'SdaWWXDTppnLDpiELvFpcZzURHctSPLH';
+        $request->validate([
+            'host' => 'required|string',
+            'port' => 'required|integer',
+            'database' => 'required|string',
+            'username' => 'required|string',
+            'password' => 'nullable|string',
+        ]);
+
+        $host = $request->input('host');
+        $port = $request->input('port');
+        $database = $request->input('database');
+        $username = $request->input('username');
+        $password = $request->input('password');
 
         try {
-            // Force create a raw PDO connection to be absolutely sure of the error
+            // Force create a raw PDO connection to test the credentials
             $dsn = "mysql:host={$host};port={$port};dbname={$database};charset=utf8mb4";
             $options = [
                 \PDO::ATTR_TIMEOUT => 5,
